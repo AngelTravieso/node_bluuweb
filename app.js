@@ -1,4 +1,5 @@
-import express from 'express'
+const fs = require('fs');
+const express = require('express');
 const app = express();
 const port = 5000;
 
@@ -14,7 +15,11 @@ app.use(express.urlencoded({ extended: true }));
 // });
 
 app.post('/formulario', (req, res) => {
-    console.log(req.body);
+
+    const { nombre, apellido } = req.body;
+
+    if(!nombre || !apellido) return res.redirect('/error.html');
+
     res.send('formulario enviado...');
 });
 
