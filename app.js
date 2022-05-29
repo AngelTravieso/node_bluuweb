@@ -5,6 +5,8 @@ const port = 5000;
 
 // middleware
 app.use(express.static('public'));
+
+
 // Para poder leer req.body que vienen de un formulario
 app.use(express.urlencoded({ extended: true }));
 
@@ -20,7 +22,12 @@ app.post('/formulario', (req, res) => {
 
     if(!nombre || !apellido) return res.redirect('/error.html');
 
-    res.send('formulario enviado...');
+    fs.writeFile(`archivos/${nombre}.txt`, apellido, (err) => {
+        if(err) return res.send('fallo al crear el archivo');
+        // res.send('se creo el archivo');
+        res.download(__dirname + `/archivos/${nombre}.txt`);
+    });
+
 });
 
 app.get('/', (req, res) => {
